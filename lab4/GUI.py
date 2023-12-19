@@ -77,9 +77,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(row_position, 0, QTableWidgetItem(str(position[0])))
             self.tableWidget.setItem(row_position, 1, QTableWidgetItem(str(position[1])))
             self.tableWidget.setItem(row_position, 2, QTableWidgetItem(str(value)))
+    def display_best_gene(self):
+        best_gene = min(self.genetic_algorithm.genes, key=float)
+        result_text = f"X: {best_gene.x}, Y: {best_gene.y}, F(X, Y): {float(best_gene)}"
+        self.BestGene.setPlainText(result_text)
+
     def show_results(self):
         self.table_iteration = -1
         self.display_genes_in_table()
+        self.display_best_gene()
 
     def previous_iteration(self):
         if self.table_iteration + self.genetic_algorithm.generations >= 0:

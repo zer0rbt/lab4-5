@@ -186,7 +186,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.ResultsGroupBox.setTitle(_translate("MainWindow", "Результаты"))
+        self.ResultsGroupBox.setTitle(_translate("MainWindow", "Лучший ген"))
         self.IterationGroupBox.setTitle(_translate("MainWindow", "Итерации"))
         self.label_2.setText(_translate("MainWindow", "Количество итераций:"))
         self.Set1iterationCount.setText(_translate("MainWindow", "1"))

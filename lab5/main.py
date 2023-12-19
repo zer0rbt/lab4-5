@@ -34,7 +34,7 @@ class Unit:
 
     def calculate_chi(self, phi1, phi2):
         k = random.uniform(0, 1)
-        return k if phi1 + phi2 < 4 else eval(self.chi_formula)
+        return k if phi1 + phi2 == 4 else eval(self.chi_formula)
 
     def turn(self, global_best):
         chi = self.calculate_chi(phi1=self.phi1, phi2=self.phi2)
@@ -76,7 +76,7 @@ class Swarm:
             for agent in self.units:
                 agent.turn(self.get_global_best().pos)
             self.iterations.append(deepcopy(self.units))
-        return self.get_global_best()
+        return self.get_global_best().pos
 
     def get_global_best(self):
         return min(self.units, key=float)
