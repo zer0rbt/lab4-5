@@ -76,7 +76,7 @@ def algorithm(genes, generations, f, mutation, bounds):
         for i in range(len(genes)):
             if random.uniform(0, 1) > mutation / 100:
                 genes[i] = mutate(genes[i], bounds)
-        for i in range(0, len(genes), 2):
+        for i in range(0, len(genes) -  len(genes) % 2, 2):
             genes[i], genes[i + 1] = crossover(genes[i], genes[i + 1], bounds)
 
         genes = sorted(genes, key=lambda x: func(f, *x))[:len(genes) // 10 * 9 + len(genes) % 10] + history[-1][
@@ -87,5 +87,54 @@ def algorithm(genes, generations, f, mutation, bounds):
         history.append(deepcopy(genes))
     return history
 
+import matplotlib.pyplot as plt
+def plot_scatter(points, xlabel, ylabel, title, label, points2=[]):
+    """
+    Генерирует scatter-график для массива точек.
+
+    Параметры:
+    - points: Массив точек в формате list[tuple(float, float)].
+    - xlabel: Подпись оси X (строка).
+    - ylabel: Подпись оси Y (строка).
+    - title: Название графика (строка).
+    - label: Подпись для легенды (строка).
+
+    Возвращает:
+    - None (отображает график).
+    """
+    x, y = zip(*points)
+    plt.plot(x, y, linestyle='-', label='GA', color="blue")
+    if points2:
+        x, y = zip(*points2)
+        plt.plot(x, y, linestyle='-', label='SA', color="red")
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.xlabel(xlabel, fontsize=8)
+    plt.ylabel(ylabel, fontsize=8)
+    plt.title(title, fontsize=8)
+    plt.xscale('linear')
+    plt.yscale('log')
+    plt.legend()
+    plt.text(x=0, y=0, s=label, fontsize=12, ha='center')
+    plt.grid(True)
+    plt.show()
+
+
 if __name__ == "__main__":
-    print(encode((0.123**(-10), 2 ** (-40))))
+    data = []
+
+    bounds = tuple([0, 10])
+    f = "(x1 - 2) ** 4 + (x1 - 2*x2) ** 2"
+    generation = initialize_genes(bounds=bounds, amount=50)
+    for i in range(1, 100):
+
+        bg = algorithm(deepcopy(generation), i, f, 20,bounds)[-1][0]
+        data.append((i, func(f, *bg)))
+    from Lia.lab5.SA import initialize_particles, algorithm
+    data1 = []
+    generation = initialize_particles(bounds=bounds, amount=50)
+    for i in range(1, 100):
+        bg = algorithm(deepcopy(generation), i, f, bounds)[-1][0]
+        data1.append((i, func(f, bg['x1'], bg['x2'])))
+
+    plot_scatter(data, "Количество итераций", "Значение целевой функции, меньше - лучше",
+                 "Сравнение алгоритмов", "", data1)
