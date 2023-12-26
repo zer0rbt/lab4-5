@@ -36,7 +36,7 @@ QPushButton:hover {
         self.spinBox_2.setValue(5)
         self.spinBox_4.setValue(50)
         self.spinBox_5.setValue(50)
-        self.spinBox_6.setValue(int(-10))
+        self.spinBox_6.setValue(0)
         self.spinBox_7.setValue(10)
 
     def calculate_chromosomes(self):
